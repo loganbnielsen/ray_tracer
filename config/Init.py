@@ -16,8 +16,9 @@ background_color = color_rgb_map["WHITE"]
 
 # objects in the scene
 objects = [
-    Sphere( np.array([ 1, -2, 8]), 1, "BLUE", "WHITE"),
-    Sphere( np.array([-2, -2, 5]), 1, "RED", "WHITE")
+    Sphere( np.array([ 1, -2, 7]), 1, "BLUE", "WHITE", 0.1),
+    Sphere( np.array([-2, -2, 5]), 1, "RED", "WHITE", 0.1),
+    Sphere( np.array([ 2, -2, 3.5]), 1, "GREEN", "WHITE", 0.1)
 ]
 
 # light sources (does not include ambient lighting)

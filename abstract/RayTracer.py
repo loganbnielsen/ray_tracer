@@ -28,6 +28,23 @@ class RayTracer:
                 closest_intersect,
                 self.stage
             )
+            reflection_color = self._reflection_color(
+                closest_intersect.loc,
+                closest_intersect.reflection()
+            )
+            r = closest_intersect.obj.reflectivity
+            color = (1 - r) * color + r * reflection_color
+        else:
+            color = background_color
+        return color
+
+    def _reflection_color(self, origin, ray):
+        closest_intersect = self.stage.find_closest_intersection(origin, ray)
+        if closest_intersect:
+            color = self.illumination_model.run(
+                closest_intersect,
+                self.stage
+            )
         else:
             color = background_color
         return color

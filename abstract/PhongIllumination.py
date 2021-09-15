@@ -1,6 +1,7 @@
 from abstract.Intersection import Intersection
 from theater.Stage import Stage
 from config.Colors import color_rgb_map
+from helpers.Methods import reflection_ray
 
 import numpy as np
 
@@ -22,8 +23,8 @@ class PhongIllumination:
         # directional lighting
         for light in stage.directional_lights:
             if light.is_visible(intersect.loc, stage):
-                N = intersect.obj.normal(intersect.loc)
-                R = 2 * N * np.dot(N, light.direction_to_source) - light.direction_to_source
+                N = intersect.normal()
+                R = reflection_ray(light.direction_to_source, N) # light reflection
                 # diffuse calculation
                 diffuse = self.k_d *\
                           intersect.obj.diffuse_color *\
