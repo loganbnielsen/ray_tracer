@@ -28,10 +28,7 @@ def reflection_ray(input_array, normal):
 def save_img(arr):
     arr = np.transpose(arr, (1,0,2))
     arr = arr * 255/np.max(arr)
-    print(arr)
     arr = arr.astype('uint8')
-    print("-----------")
-    print(arr)
     im = Image.fromarray(arr)
     im.save("out/img/foo1.jpg")
     imwrite('out/img/foo1.ppm', arr, format='PPMRAW-FI', flags=1)

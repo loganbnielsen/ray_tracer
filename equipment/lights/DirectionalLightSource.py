@@ -1,7 +1,6 @@
 from equipment.lights.BaseLight import BaseLight
 import numpy as np
 from theater.Stage import Stage
-from config.Constants import shadow_factor
 from helpers.Methods import offset_vector
 
 class DirectionalLightSource(BaseLight):

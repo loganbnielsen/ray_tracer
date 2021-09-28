@@ -1,10 +1,12 @@
 from config.Colors import color_rgb_map
 
 class Asset:
-    def __init__(self, diffuse_color, specular_color, reflectivity):
+    def __init__(self, diffuse_color, specular_color, reflectivity, refractivity, material):
         self.diffuse_color = color_rgb_map[diffuse_color]
         self.specular_color = color_rgb_map[specular_color]
         self.reflectivity = reflectivity
+        self.refractivity = refractivity
+        self.material = material
 
     def intersect(self):
         # This method will be implemented by child class

@@ -3,8 +3,8 @@ from assets.Asset import Asset
 from helpers.Methods import offset_vector
 
 class Sphere(Asset):
-    def __init__(self, center, radius, diffuse_color, specular_color, reflectivity):
-        super().__init__(diffuse_color, specular_color, reflectivity)
+    def __init__(self, center, radius, diffuse_color, specular_color, reflectivity, refractivity, material):
+        super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material)
         self.center = center
         self.radius = radius
     

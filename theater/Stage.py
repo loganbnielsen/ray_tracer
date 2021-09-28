@@ -20,7 +20,9 @@ class Stage:
         closest_intersection = None
         for obj in self.objects: 
             dist = obj.intersect(offset_origin, ray)
+                            
             if dist and dist < smallest_dist: # check that intersected and if it's the closest intersection
+                smallest_dist = dist
                 intersect_loc = offset_origin + ray * dist # record point in space
-                closest_intersection = Intersection(obj, intersect_loc, ray) 
+                closest_intersection = Intersection(obj, intersect_loc, ray, dist) 
         return closest_intersection             
