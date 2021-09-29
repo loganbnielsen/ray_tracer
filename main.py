@@ -15,7 +15,7 @@ from abstract.PhongIllumination import PhongIllumination
 def setup():
     # equipment
     camera = Camera(cp.x, cp.y, cp.z)
-    screen = Screen(ss.height, ss.width)
+    screen = Screen(ss.height, ss.width, ss.samples_per_pixel)
     # stage
     stage = Stage(objs, directional_lights)
     return Set(camera, screen, stage), PhongIllumination(**phong_illumination_constants)

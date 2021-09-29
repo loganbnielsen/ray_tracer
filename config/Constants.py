@@ -1,7 +1,7 @@
 from config.Colors import color_rgb_map
 
 phong_illumination_constants = {
-    'k_a': 0.2, # ambient constant
+    'k_a': 0.4, # ambient constant
     'k_d': 0.9, # diffuse constant
     'k_s': 2, # specular constant
     'I_a_name': 'WHITE', # ambient light color

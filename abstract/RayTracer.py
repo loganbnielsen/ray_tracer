@@ -20,9 +20,20 @@ class RayTracer:
         self.illumination_model = illumination_model
 
     def run(self):
-        for i, j, ray in camera_rays_generator(self.camera, self.screen):
+        # TODO camera_rays_generator more general to contain sp,e number of arrays
+        # per pixel. Average over pixels
+        """
+            for i, j, pixel_rays in camera_rays_generator(self.camera, self.screen):
+                n = len(pixel_rays)
+                color = np.array([0,0,0])
+                for ray in pixel_rays:
+                    mray = MaterialRay(self.camera.position, ray, "air", 0)
+                    color += self._gen_color(mray) / n
+                self.screen.grid_color[i,j] = color
+        """
+        for i, j, n_samples, ray in camera_rays_generator(self.camera, self.screen):
             mray = MaterialRay(self.camera.position, ray, "air", 0)
-            self.screen.grid.colors[i,j] = self._gen_color(mray)
+            self.screen.grid.colors[i,j] += self._gen_color(mray) / n_samples
 
     def _gen_color(self, mray):
         closest_intersect = self.stage.find_closest_intersection(mray.origin, mray.ray)
@@ -42,11 +53,11 @@ class RayTracer:
                     mray.count
                 )
                 # convex combination of object_color and reflection
-                if refraction_color:
+                if not reflection_color is None:
                     r = closest_intersect.obj.reflectivity
                     color = (1 - r) * color + r * reflection_color
                 # convex combination of natural_color and refraction_color
-                if refraction_color:
+                if not refraction_color is None:
                     r = closest_intersect.obj.refractivity
                     color = (1 - r) * color + r * refraction_color
             else:
@@ -101,7 +112,7 @@ class RayTracer:
             return None
         n_r = index_of_refraction[previous_medium] / index_of_refraction[intersection.obj.material]
         refraction_ray  = self._gen_refraction_ray(n_r, intersection.normal(), -intersection.ray)
-        if refraction_ray:
+        if not refraction_ray is None:
             refraction_ray = refraction_ray / np.linalg.norm(refraction_ray)
             mray = MaterialRay(intersection.loc, refraction_ray, intersection.obj.material, count+1)
             return self._gen_color(mray)

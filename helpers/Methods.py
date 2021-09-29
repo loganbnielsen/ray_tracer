@@ -7,13 +7,20 @@ from PIL import Image
 
 from imageio import imwrite
 
+from tqdm import tqdm
+
 def camera_rays_generator(camera: Camera, screen : Screen):
+    n_samples = np.sqrt( screen.samples_per_pixel ).astype(int)
+    assert np.isclose(n_samples, np.sqrt( screen.samples_per_pixel ))
     nx, ny, _ = screen.grid.coords.shape
-    for i in range(nx):
-        for j in range(ny):
+    tqdm()
+    for i in tqdm(range(nx*n_samples), desc="Row", leave=False):
+        i = i//n_samples
+        for j in range(ny*n_samples):
+            j = j//n_samples
             ray = screen.grid.coords[i,j,:] - camera.position
             u_ray = ray / np.linalg.norm(ray)
-            yield i, j, u_ray
+            yield i, j, n_samples, u_ray
 
 def offset_vector(origin, ray):
     return origin + ray * 1e-5

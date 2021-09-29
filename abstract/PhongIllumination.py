@@ -33,5 +33,6 @@ class PhongIllumination:
                 specular = self.k_s *\
                            intersect.obj.specular_color *\
                            max(0, np.dot(-intersect.ray, R)) ** self.p
-                result = result + light.color * (diffuse + specular)
+                result = light.intensity * (result + light.color * (diffuse + specular))
+                result 
         return result
