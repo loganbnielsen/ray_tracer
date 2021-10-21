@@ -1,10 +1,10 @@
 import numpy as np
 from assets.Asset import Asset
-from helpers.Methods import offset_vector
+from helpers.Methods import offset_vector, euclid_length
 
 class Sphere(Asset):
-    def __init__(self, center, radius, diffuse_color, specular_color, reflectivity, refractivity, material):
-        super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material)
+    def __init__(self, center, radius, diffuse_color, specular_color, reflectivity, refractivity, material, jitter_factor):
+        super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material, jitter_factor)
         self.center = center
         self.radius = radius
     
@@ -12,7 +12,7 @@ class Sphere(Asset):
         # https://medium.com/swlh/ray-tracing-from-scratch-in-python-41670e6a96f9
         offset_origin = offset_vector(origin, ray)
         b = 2 * np.dot(ray, offset_origin - self.center)
-        c = np.linalg.norm(offset_origin - self.center)**2 - self.radius**2
+        c = euclid_length(offset_origin - self.center)**2 - self.radius**2
         delta = b ** 2 - 4 * c
         if delta > 0:
             t1 = (-b + np.sqrt(delta)) / 2
@@ -29,5 +29,5 @@ class Sphere(Asset):
     
     def normal(self, intersect_loc):
         v = intersect_loc - self.center
-        u_v = v / np.linalg.norm(v)
+        u_v = v / euclid_length(v)
         return u_v

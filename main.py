@@ -5,7 +5,8 @@ from theater.Stage import Stage
 from theater.Set import Set
 
 from helpers.Methods import camera_rays_generator, save_img
-from config.Init import CameraPosition as cp, ScreenSize as ss, objects as objs, directional_lights
+from config.Init import objects as objs, directional_lights
+from config.Settings import CameraPosition as cp, ScreenSize as ss
 
 from config.Constants import phong_illumination_constants
 

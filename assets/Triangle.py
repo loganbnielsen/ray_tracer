@@ -1,11 +1,11 @@
 import numpy as np
 from assets.Asset import Asset
-from helpers.Methods import offset_vector
+from helpers.Methods import offset_vector, euclid_length
 from config.Constants import EPSILON
 
 class Triangle(Asset):
-    def __init__(self, vtx0, vtx1, vtx2, diffuse_color, specular_color, reflectivity, refractivity, material):
-        super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material)
+    def __init__(self, vtx0, vtx1, vtx2, diffuse_color, specular_color, reflectivity, refractivity, material, jitter_factor):
+        super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material, jitter_factor)
         self.vtx0 = vtx0
         self.vtx1 = vtx1
         self.vtx2 = vtx2
@@ -41,5 +41,5 @@ class Triangle(Asset):
 
     def normal(self, loc):
         n = np.cross(self.edge1, self.edge2)
-        n = n / np.linalg.norm(n)
+        n = n / euclid_length(n)
         return n

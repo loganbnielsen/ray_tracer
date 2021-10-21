@@ -6,6 +6,10 @@ from helpers.Methods import offset_vector
 class Stage:
     # objects: list[Asset]
     # lights: list[BaseLight]
+    
+    # TODO use bounding box algo to store objects
+    # and intersect against the bounding boxes to
+    # find closest objects
 
     def __init__(self, objects, directional_lights):
         self.objects = objects

@@ -3,11 +3,11 @@ from equipment.Screen import Screen
 from theater.Stage import Stage
 from theater.Set import Set
 
-from helpers.Methods import camera_rays_generator
+from helpers.Methods import camera_rays_generator, jitter_array
 from abstract.MaterialRay import MaterialRay
 from abstract.Intersection import Intersection
 from abstract.PhongIllumination import PhongIllumination
-from config.Init import background_color, is_dry_run, max_parent_rays, is_run_illumination, is_run_reflection, is_run_refraction
+from config.Settings import background_color, is_dry_run, max_parent_rays, is_run_illumination, is_run_reflection, is_run_refraction
 from config.Constants import index_of_refraction
 
 import numpy as np
@@ -20,19 +20,12 @@ class RayTracer:
         self.illumination_model = illumination_model
 
     def run(self):
-        # TODO camera_rays_generator more general to contain sp,e number of arrays
-        # per pixel. Average over pixels
         """
-            for i, j, pixel_rays in camera_rays_generator(self.camera, self.screen):
-                n = len(pixel_rays)
-                color = np.array([0,0,0])
-                for ray in pixel_rays:
-                    mray = MaterialRay(self.camera.position, ray, "air", 0)
-                    color += self._gen_color(mray) / n
-                self.screen.grid_color[i,j] = color
+            itterates over camera rays, computing the color at that pixel
         """
         for i, j, n_samples, ray in camera_rays_generator(self.camera, self.screen):
             mray = MaterialRay(self.camera.position, ray, "air", 0)
+            mray.ray = jitter_array(mray.ray)
             self.screen.grid.colors[i,j] += self._gen_color(mray) / n_samples
 
     def _gen_color(self, mray):
@@ -90,6 +83,7 @@ class RayTracer:
         if intersection.obj.reflectivity == 0: # check if trivial
             return None
         mray = MaterialRay(intersection.loc, intersection.reflection(), medium, count+1)
+        mray.ray = jitter_array(mray.ray, intersection.obj.jitter_factor)
         return self._gen_color(mray)
 
     def _gen_refraction_ray(self, n_r, N, V):
@@ -115,6 +109,7 @@ class RayTracer:
         if not refraction_ray is None:
             refraction_ray = refraction_ray / np.linalg.norm(refraction_ray)
             mray = MaterialRay(intersection.loc, refraction_ray, intersection.obj.material, count+1)
+            mray.ray = jitter_array(mray.ray, intersection.obj.jitter_factor)
             return self._gen_color(mray)
         else:
             return None

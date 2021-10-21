@@ -1,13 +1,15 @@
 import numpy as np
 
+from helpers.Methods import euclid_length
+
 from equipment.Camera import Camera
 from equipment.Screen import Screen
 
 from PIL import Image
-
 from imageio import imwrite
-
 from tqdm import tqdm
+
+from config.Settings import jitter_factor
 
 def camera_rays_generator(camera: Camera, screen : Screen):
     n_samples = np.sqrt( screen.samples_per_pixel ).astype(int)
@@ -19,7 +21,7 @@ def camera_rays_generator(camera: Camera, screen : Screen):
         for j in range(ny*n_samples):
             j = j//n_samples
             ray = screen.grid.coords[i,j,:] - camera.position
-            u_ray = ray / np.linalg.norm(ray)
+            u_ray = ray / euclid_length(ray)
             yield i, j, n_samples, u_ray
 
 def offset_vector(origin, ray):
@@ -39,3 +41,19 @@ def save_img(arr):
     im = Image.fromarray(arr)
     im.save("out/img/foo1.jpg")
     imwrite('out/img/foo1.ppm', arr, format='PPMRAW-FI', flags=1)
+
+def jitter_array(arr, scale=1):
+    """
+        jitter's array if jitter_factor is non-zero
+    """
+    total_jitter_factor = jitter_factor*scale
+    if total_jitter_factor != 0:
+        assert total_jitter_factor == jitter_factor, f"total jitter factor is {total_jitter_factor}"
+        noise = np.random.normal(0, total_jitter_factor, arr.shape)
+        jit = arr + noise 
+        return jit / euclid_length(jit)
+    else:
+        return arr
+
+def euclid_length(v):
+    return sum(v*v)**0.5
