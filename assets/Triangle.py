@@ -13,6 +13,13 @@ class Triangle(Asset):
         self.edge1 = self.vtx1 - self.vtx0
         self.edge2 = self.vtx2 - self.vtx0
 
+        self._set_min_coords(np.row_stack([vtx0, vtx1, vtx2]))
+        
+
+    def _set_min_coords(self, coords):
+        self.min_x, self.min_y, self.min_z = coords.min(0)
+        self.max_x, self.max_y, self.max_z = coords.max(0)
+
     def intersect(self, origin, ray):
         # https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
         offset_origin = offset_vector(origin, ray)

@@ -1,7 +1,5 @@
 import numpy as np
 
-from helpers.Methods import euclid_length
-
 from equipment.Camera import Camera
 from equipment.Screen import Screen
 

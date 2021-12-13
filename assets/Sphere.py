@@ -7,6 +7,11 @@ class Sphere(Asset):
         super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material, jitter_factor)
         self.center = center
         self.radius = radius
+        self._set_min_coords()
+
+    def _set_min_coords(self):
+        self.min_x, self.min_y, self.min_z = self.center - self.radius # this point doesn't exist but each coordinate magnitude exists exactly once and it's the min
+        self.max_x, self.max_y, self.max_z = self.center + self.radius # this point doesn't exist but each coordinate magnitude exists exactly once and it's the max
     
     def intersect(self, origin, ray):
         # https://medium.com/swlh/ray-tracing-from-scratch-in-python-41670e6a96f9

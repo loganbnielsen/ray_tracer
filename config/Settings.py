@@ -21,3 +21,8 @@ is_run_refraction = True
 background_color = color_rgb_map["LIGHT_GRAY"] 
 
 jitter_factor = 0.0001
+
+bounding_box_configs = {
+    "box_size": 11, # maximum boxes
+    "max_depth": 3 # number of splits allowed
+}
