@@ -6,12 +6,13 @@ from config.Constants import EPSILON
 from algo.EarClipper import EarClipper
 
 class Polygon(Asset):
-    def __init__(self, vertices:[np.array], diffuse_color, specular_color, reflectivity, refractivity, material, jitter_factor):
+    def __init__(self, vertices:[np.array], diffuse_color, specular_color, reflectivity, refractivity, material,
+                 glossy_jf, translucency_jf):
         """
             Note that a polygon is a flat object.
             Don't use this for something 3D
         """
-        super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material, jitter_factor)
+        super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material, glossy_jf, translucency_jf)
         list_triangle_coords = EarClipper().clip(vertices)
         self.triangles = [Triangle(vtx0, vtx1, vtx2, diffuse_color, specular_color, reflectivity,
                                       refractivity, material, jitter_factor)

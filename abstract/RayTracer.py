@@ -83,7 +83,7 @@ class RayTracer:
         if intersection.obj.reflectivity == 0: # check if trivial
             return None
         mray = MaterialRay(intersection.loc, intersection.reflection(), medium, count+1)
-        mray.ray = jitter_array(mray.ray, intersection.obj.jitter_factor)
+        mray.ray = jitter_array(mray.ray, intersection.obj.glossy_jf)
         return self._gen_color(mray)
 
     def _gen_refraction_ray(self, n_r, N, V):
@@ -109,7 +109,7 @@ class RayTracer:
         if not refraction_ray is None:
             refraction_ray = refraction_ray / np.linalg.norm(refraction_ray)
             mray = MaterialRay(intersection.loc, refraction_ray, intersection.obj.material, count+1)
-            mray.ray = jitter_array(mray.ray, intersection.obj.jitter_factor)
+            mray.ray = jitter_array(mray.ray, intersection.obj.translucency_jf)
             return self._gen_color(mray)
         else:
             return None

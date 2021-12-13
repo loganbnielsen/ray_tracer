@@ -1,13 +1,16 @@
 from config.Colors import color_rgb_map
 
 class Asset:
-    def __init__(self, diffuse_color, specular_color, reflectivity, refractivity, material, jitter_factor):
+    def __init__(self, diffuse_color, specular_color, reflectivity, refractivity, material,
+                 glossy_jf, translucency_jf): # jf = jitter factor
         self.diffuse_color = color_rgb_map.get(diffuse_color)
         self.specular_color = color_rgb_map.get(specular_color)
         self.reflectivity = reflectivity
         self.refractivity = refractivity
         self.material = material
-        self.jitter_factor = jitter_factor
+        self.glossy_jf = glossy_jf
+        self.translucency_jf = translucency_jf
+        # these attributes should be set by child (TODO implement as property methods)
         self.min_x = None
         self.min_y = None
         self.min_z = None

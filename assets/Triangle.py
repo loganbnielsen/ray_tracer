@@ -4,8 +4,8 @@ from helpers.Methods import offset_vector, euclid_length
 from config.Constants import EPSILON
 
 class Triangle(Asset):
-    def __init__(self, vtx0, vtx1, vtx2, diffuse_color, specular_color, reflectivity, refractivity, material, jitter_factor):
-        super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material, jitter_factor)
+    def __init__(self, vtx0, vtx1, vtx2, diffuse_color, specular_color, reflectivity, refractivity, material, glossy_jf, translucency_jf):
+        super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material, glossy_jf, translucency_jf)
         self.vtx0 = vtx0
         self.vtx1 = vtx1
         self.vtx2 = vtx2
