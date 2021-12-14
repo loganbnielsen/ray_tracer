@@ -14,9 +14,10 @@ class Stage:
     # and intersect against the bounding boxes to
     # find closest objects
 
-    def __init__(self, objects, directional_lights):
+    def __init__(self, objects, directional_lights, area_lights):
         self.objects = objects
         self.directional_lights = directional_lights
+        self.area_lights = area_lights
         self.stored_in_boxes = False
         # place objects in boxes
         # bbs = BoundingBoxSplit(15, 15)

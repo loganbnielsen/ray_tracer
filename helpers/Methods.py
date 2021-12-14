@@ -1,4 +1,5 @@
 import numpy as np
+from pathlib import Path
 
 from equipment.Camera import Camera
 from equipment.Screen import Screen
@@ -37,6 +38,7 @@ def save_img(arr):
     arr = arr * 255/np.max(arr)
     arr = arr.astype('uint8')
     im = Image.fromarray(arr)
+    Path("out/img/").mkdir(parents=True, exist_ok=True)
     im.save("out/img/foo1.jpg")
     imwrite('out/img/foo1.ppm', arr, format='PPMRAW-FI', flags=1)
 

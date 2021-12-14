@@ -24,7 +24,7 @@ class Set:
             return color * \
                 self.cumulative_light_factor(intersect_loc)
 
-    ##########3
+    ###########
 
     def reflection_ray(self, intersect_loc, ray, obj):
         normal = obj.normal(intersect_loc)
@@ -38,6 +38,8 @@ class Set:
             cumulative_light_factor *=\
                 light.visibility(loc, self.stage)
         # add other light sources
+        # for light in self.stage.area_lights:
+
         return cumulative_light_factor
 
 

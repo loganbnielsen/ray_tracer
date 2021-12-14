@@ -56,7 +56,10 @@ class RayTracer:
             else:
                 color = closest_intersect.obj.diffuse_color
         else:
-            color = background_color
+            if mray.count == 0:
+                color = background_color
+            else:
+                color = None
         return color
 
     def _illumination_color(self, intersection:Intersection):

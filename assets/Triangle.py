@@ -50,3 +50,6 @@ class Triangle(Asset):
         n = np.cross(self.edge1, self.edge2)
         n = n / euclid_length(n)
         return n
+
+    def __str__(self):
+        return " ".join(["[ Triangle:",str(self.vtx0),str(self.vtx1),str(self.vtx2),"]"])

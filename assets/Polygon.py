@@ -1,7 +1,7 @@
 import numpy as np
 from assets.Asset import Asset
 from assets.Triangle import Triangle
-from helpers.Methods import offset_vector, euclid_length
+from helpers.Methods import offset_vector
 from config.Constants import EPSILON
 from algo.EarClipper import EarClipper
 
@@ -15,7 +15,7 @@ class Polygon(Asset):
         super().__init__(diffuse_color, specular_color, reflectivity, refractivity, material, glossy_jf, translucency_jf)
         list_triangle_coords = EarClipper().clip(vertices)
         self.triangles = [Triangle(vtx0, vtx1, vtx2, diffuse_color, specular_color, reflectivity,
-                                      refractivity, material, jitter_factor)
+                                      refractivity, material, glossy_jf, translucency_jf)
                           for vtx0, vtx1, vtx2 in list_triangle_coords]
         self.closest_intersected_triangle = None # for caching intersections
         self._set_min_coords(np.row_stack([item for l in list_triangle_coords for item in l]))
@@ -32,13 +32,15 @@ class Polygon(Asset):
                 if closest_t:
                     if t < closest_t:
                         closest_t = t
-                        self.closest_intersected_triangle
+                        self.closest_intersected_triangle = triangle
                 else:
                     closest_t = t 
-                    self.closest_intersected_triangle
+                    self.closest_intersected_triangle = triangle
         return closest_t
     
     def normal(self, intersect_loc):
         return self.closest_intersected_triangle.normal(intersect_loc)
-            
+    
+    def __str__(self):
+        return "[ Polygon: "+",".join([str(t) for t in self.triangles])+" ]"
     

@@ -13,8 +13,8 @@ class DirectionalLightSource(BaseLight):
         self.direction_to_source = -self.light_direction # always the case for directional light sources
         self.intensity = intensity
 
-    def is_visible(self, point, stage:Stage):
+    def visibility(self, point, stage:Stage):
         offset_origin = offset_vector(point, self.direction_to_source)
         intersect = stage.find_closest_intersection\
                         (offset_origin, self.direction_to_source)
-        return False if intersect else True
+        return 0 if intersect else 1
